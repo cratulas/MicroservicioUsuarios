@@ -1,3 +1,25 @@
+-- Eliminar triggers
+DROP TRIGGER trg_roles;
+DROP TRIGGER trg_usuarios;
+DROP TRIGGER trg_categorias;
+DROP TRIGGER trg_publicaciones;
+DROP TRIGGER trg_comentarios;
+
+-- Eliminar secuencias
+DROP SEQUENCE seq_roles;
+DROP SEQUENCE seq_usuarios;
+DROP SEQUENCE seq_categorias;
+DROP SEQUENCE seq_publicaciones;
+DROP SEQUENCE seq_comentarios;
+
+-- Eliminar tablas 
+DROP TABLE comentarios CASCADE CONSTRAINTS;
+DROP TABLE publicaciones CASCADE CONSTRAINTS;
+DROP TABLE usuarios CASCADE CONSTRAINTS;
+DROP TABLE categorias CASCADE CONSTRAINTS;
+DROP TABLE roles CASCADE CONSTRAINTS;
+
+
 -- Crear tablas
 CREATE TABLE roles (
     id_rol NUMBER PRIMARY KEY,

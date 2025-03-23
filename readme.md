@@ -106,7 +106,7 @@
 
 ### 🛠 **Pasos para ejecutar la app**
 1. **Clona este repositorio** en tu máquina local:
-  - git clone https://github.com/cratulas/
+  - git clone https://github.com/cratulas/MicroservicioUsuarios
   - Abrir app con tu IDE preferido
   - Ejecutar la APP
   - Probar ENDPOINTS con POSTMAN

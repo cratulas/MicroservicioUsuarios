@@ -4,6 +4,7 @@ import demo.demo.dto.UsuarioDTO;
 import demo.demo.model.Usuario;
 import demo.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,34 +16,37 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Listar todos los usuarios
     public List<Usuario> listarUsuarios() {
         return usuarioRepository.findAll();
     }
 
-    // Obtener un usuario por su ID
     public Optional<Usuario> obtenerUsuarioPorId(Long id) {
         return usuarioRepository.findById(id);
     }
 
-    // Guardar un usuario
     public Usuario guardarUsuario(Usuario usuario) {
+        if (usuario.getContraseña() != null) {
+            String hashed = BCrypt.hashpw(usuario.getContraseña(), BCrypt.gensalt());
+            usuario.setContraseña(hashed);
+        }
         return usuarioRepository.save(usuario);
     }
 
-    // Eliminar usuario por ID
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
 
-    // Validar login
-    public Optional<Usuario> validarLogin(String email, String contraseña) {
-        return usuarioRepository.findAll().stream()
-                .filter(usuario -> usuario.getEmail().equals(email) && usuario.getContraseña().equals(contraseña))
-                .findFirst();
+    public Optional<Usuario> validarLogin(String email, String contraseñaPlano) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            if (BCrypt.checkpw(contraseñaPlano, usuario.getContraseña())) {
+                return Optional.of(usuario);
+            }
+        }
+        return Optional.empty();
     }
 
-    // Convertir entidad Usuario a DTO
     public UsuarioDTO convertirAUsuarioDTO(Usuario usuario) {
         return UsuarioDTO.builder()
                 .idUsuario(usuario.getIdUsuario())

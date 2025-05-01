@@ -60,6 +60,11 @@ public class UsuarioService {
         return Optional.empty();
     }
 
+    public Optional<Usuario> obtenerUsuarioPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+    
+
     public UsuarioDTO convertirAUsuarioDTO(Usuario usuario) {
         return UsuarioDTO.builder()
                 .idUsuario(usuario.getIdUsuario())

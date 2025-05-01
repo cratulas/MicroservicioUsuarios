@@ -32,12 +32,11 @@ public class Usuario {
     private String contraseña;
 
 
-    @ManyToOne
     @NotNull(message = "El rol es obligatorio")
-    @Min(value = 1)
-    @Max(value = 3)
+    @ManyToOne
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
+    
 
     public Usuario() {}
 }

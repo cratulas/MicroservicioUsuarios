@@ -4,6 +4,7 @@ import demo.demo.dto.UsuarioDTO;
 import demo.demo.model.Usuario;
 import demo.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,9 +56,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String contraseña) {
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String contraseña) {
         Optional<Usuario> usuarioOpt = usuarioService.validarLogin(email, contraseña);
-        return usuarioOpt.map(usuario -> ResponseEntity.ok("Inicio de sesión exitoso. Bienvenido " + usuario.getNombreUsuario() + "!"))
-                .orElse(ResponseEntity.status(401).body("Credenciales incorrectas."));
-    }
+        if (usuarioOpt.isPresent()) {
+            UsuarioDTO dto = usuarioService.convertirAUsuarioDTO(usuarioOpt.get());
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas.");
+        }
+    }   
+
 }

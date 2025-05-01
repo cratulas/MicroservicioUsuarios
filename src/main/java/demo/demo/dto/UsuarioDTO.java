@@ -10,24 +10,16 @@ public class UsuarioDTO {
     private String nombreUsuario;
     private String email;
     private Long rolId;
+    private String rolNombre;
 
-    // Constructor vacío
     public UsuarioDTO() {}
 
-    // Constructor con parámetros
-    public UsuarioDTO(Long idUsuario, String nombreUsuario, String email, Long rolId) {
-        this.idUsuario = idUsuario;
-        this.nombreUsuario = nombreUsuario;
-        this.email = email;
-        this.rolId = rolId;
-    }
-
-    // Builder
     private UsuarioDTO(Builder builder) {
         this.idUsuario = builder.idUsuario;
         this.nombreUsuario = builder.nombreUsuario;
         this.email = builder.email;
         this.rolId = builder.rolId;
+        this.rolNombre = builder.rolNombre;
     }
 
     public static Builder builder() {
@@ -39,6 +31,7 @@ public class UsuarioDTO {
         private String nombreUsuario;
         private String email;
         private Long rolId;
+        private String rolNombre;
 
         public Builder idUsuario(Long idUsuario) {
             this.idUsuario = idUsuario;
@@ -60,8 +53,15 @@ public class UsuarioDTO {
             return this;
         }
 
+        public Builder rolNombre(String rolNombre) {
+            this.rolNombre = rolNombre;
+            return this;
+        }
+
         public UsuarioDTO build() {
-            return new UsuarioDTO(this);
+            UsuarioDTO dto = new UsuarioDTO(this);
+            return dto;
         }
     }
 }
+

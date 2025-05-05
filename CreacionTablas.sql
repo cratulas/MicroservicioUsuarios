@@ -61,6 +61,11 @@ CREATE TABLE comentarios (
     FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion)
 );
 
+
+ALTER TABLE publicaciones ADD (estado VARCHAR2(20) DEFAULT 'activo');
+ALTER TABLE comentarios ADD (estado VARCHAR2(20) DEFAULT 'activo');
+
+
 -- Crear secuencias para IDs
 CREATE SEQUENCE seq_roles START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_usuarios START WITH 1 INCREMENT BY 1;
